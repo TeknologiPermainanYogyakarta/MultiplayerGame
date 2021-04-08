@@ -12,8 +12,6 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         rigidBody.AddForce(transform.forward * force);
-        if (GetComponent<PhotonView>().IsMine)
-            Invoke(nameof(DestroySelf), destroyAfter);
     }
 
     private void DestroySelf()
@@ -26,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
         if (co.GetComponent<TankHealth>())
         {
-            co.GetComponent<TankHealth>().TakeDamage(17.5f);
+            co.GetComponent<TankHealth>().TakeDamage(-17.5f);
         }
         DestroySelf();
     }

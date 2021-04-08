@@ -7,11 +7,14 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
 {
     private PhotonView pv;
 
+    public TankHealth TankHealth;
+
     [SerializeField]
     private float currentScore;
 
     public float Score => currentScore;
     public string NickName => pv.Owner.NickName;
+    public int PlayerNum => pv.Owner.ActorNumber;
 
     private void Awake()
     {

@@ -28,11 +28,18 @@ public class GameManager : MonoBehaviour
     private List<TankStats> tankList = new List<TankStats>();
     public List<TankStats> TankList => tankList;
 
+    public TankStats FindPlayer(TankStats _this)
+    {
+        return TankList.Find(x => x == _this);
+    }
+
     public void AddTank(TankStats _tank)
     {
         if (tankList.Contains(_tank)) { return; }
 
         tankList.Add(_tank);
+        tankList.Sort((a, b) => a.PlayerNum.CompareTo(b.PlayerNum));
+
         gameUiController.leaderBoard.UpdatePlayerList();
     }
 

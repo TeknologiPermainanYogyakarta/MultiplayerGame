@@ -149,7 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 6730388815236497519}
-  maxHealth: 1000
+  maxHealth: 100
+  armor: 0
 --- !u!114 &188838544361720725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef0263fd336c1142ae24fef6be7e671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TankHealth: {fileID: 7442631344227717981}
   currentScore: 0
 --- !u!114 &1929121057450696486
 MonoBehaviour:

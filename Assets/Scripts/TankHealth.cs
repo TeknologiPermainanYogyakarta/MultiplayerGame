@@ -11,11 +11,14 @@ public class TankHealth : MonoBehaviour
     [SerializeField]
     private Image healthBar = null;
 
-    private float currentHealth = 1000f;
+    private float currentHealth = 100f;
 
-    public float maxHealth = 1000f;
+    public float maxHealth = 100f;
 
     private bool isDie;
+
+    [SerializeField]
+    private int armor;
 
     private void Awake()
     {
@@ -24,32 +27,49 @@ public class TankHealth : MonoBehaviour
 
     private void Start()
     {
-        //pv.RPC(nameof(RpcSetHealth), RpcTarget.AllBuffered, currentHealth);
+        //if (pv.IsMine)
+        //{
+        //    pv.RPC(nameof(RpcArmor), RpcTarget.AllBuffered, Random.Range(-100, 100));
+        //}
 
         updateHealth();
     }
 
     public void TakeDamage(float _amount)
     {
+        if (!pv.IsMine == false) { return; }
+
         if (isDie)
             return;
-        currentHealth -= _amount;
 
-        pv.RPC(nameof(RpcSetHealth), RpcTarget.AllBuffered, currentHealth);
+        //pv.RPC(nameof(RpcTakeDamageManager), RpcTarget.AllBuffered, _amount, pv.Owner.ActorNumber);
+        pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount);
     }
 
-    [PunRPC]
-    public void RpcSetHealth(float _healthSync)
-    {
-        currentHealth = _healthSync;
+    //[PunRPC]
+    //public void RpcTakeDamageManager(float _amount, int playerIndex)
+    //{
+    //    GameManager.instance.TankList[playerIndex - 1].TankHealth.RpcTakeDamage(_amount);
+    //}
 
+    [PunRPC]
+    public void RpcTakeDamage(float _amount)
+    {
+        currentHealth += _amount;
+
+        updateHealth();
         if (currentHealth <= 0)
         {
             die();
         }
-
-        updateHealth();
     }
+
+    //[PunRPC]
+    //public void RpcArmor(int _amount)
+    //{
+    //    armor += _amount;
+    //    Debug.LogError($"{armor} is the armor");
+    //}
 
     private void die()
     {
