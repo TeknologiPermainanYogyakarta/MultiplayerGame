@@ -56,7 +56,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         GameManager.instance.mainMenuUi.SetStatusText($"Joined room: {PhotonNetwork.CurrentRoom.Name}");
 
         GameManager.instance.onGameStart();
-        GameManager.instance.SpawnPlayer();
 
         checkTanks();
     }
@@ -79,7 +78,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         checkTanks();
-        GameManager.instance.OnPlayerEnterRoom();
     }
 
     #endregion join create room

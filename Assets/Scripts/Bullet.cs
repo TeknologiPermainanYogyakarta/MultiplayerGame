@@ -24,7 +24,8 @@ public class Bullet : MonoBehaviour
     {
         if (co.GetComponent<TankHealth>())
         {
-            co.GetComponent<TankHealth>().TakeDamage(-17.5f);
+            co.GetComponent<TankHealth>().SetHealth(-33f);
+            Debug.LogError($"Bullet damaging {co.gameObject.name}");
         }
         DestroySelf();
     }

@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class TankHealth : MonoBehaviour
     public float maxHealth = 100f;
 
     private bool isDie;
+    public bool IsDie => isDie;
 
     [SerializeField]
     private int armor;
@@ -27,33 +29,21 @@ public class TankHealth : MonoBehaviour
 
     private void Start()
     {
-        //if (pv.IsMine)
-        //{
-        //    pv.RPC(nameof(RpcArmor), RpcTarget.AllBuffered, Random.Range(-100, 100));
-        //}
-
         updateHealth();
     }
 
-    public void TakeDamage(float _amount)
+    public void SetHealth(float _amount)
     {
-        if (!pv.IsMine == false) { return; }
+        if (!pv.IsMine) { return; }
 
         if (isDie)
             return;
 
-        //pv.RPC(nameof(RpcTakeDamageManager), RpcTarget.AllBuffered, _amount, pv.Owner.ActorNumber);
-        pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount);
+        pv.RPC(nameof(RpcSetHealth), RpcTarget.AllBuffered, _amount);
     }
 
-    //[PunRPC]
-    //public void RpcTakeDamageManager(float _amount, int playerIndex)
-    //{
-    //    GameManager.instance.TankList[playerIndex - 1].TankHealth.RpcTakeDamage(_amount);
-    //}
-
     [PunRPC]
-    public void RpcTakeDamage(float _amount)
+    public void RpcSetHealth(float _amount)
     {
         currentHealth += _amount;
 
@@ -64,21 +54,36 @@ public class TankHealth : MonoBehaviour
         }
     }
 
-    //[PunRPC]
-    //public void RpcArmor(int _amount)
-    //{
-    //    armor += _amount;
-    //    Debug.LogError($"{armor} is the armor");
-    //}
-
     private void die()
     {
         gameObject.SetActive(false);
         isDie = true;
+
+        GameManager.instance.PlayerDie(GetComponent<TankStats>());
+        GameManager.instance.gameUi.RestartButton.gameObject.SetActive(true);
     }
 
     private void updateHealth()
     {
         healthBar.fillAmount = currentHealth / maxHealth;
+    }
+
+    public void resetHealth()
+    {
+        // because resetter is local, another client is ignored
+
+        if (!pv.IsMine) { return; }
+
+        pv.RPC(nameof(RpcResetHealth), RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void RpcResetHealth()
+    {
+        currentHealth = maxHealth;
+        gameObject.SetActive(true);
+        isDie = false;
+
+        updateHealth();
     }
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,10 +19,13 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("GameStats")]
-    public GameUiController gameUiController;
+    public GameUiController gameUi;
     public MainMenuUi mainMenuUi;
 
     public CameraFollow cam;
+
+    [Header("Battle")]
+    public BattleManager battle;
 
     [SerializeField]
     private TankStats localTank;
@@ -28,9 +33,18 @@ public class GameManager : MonoBehaviour
     private List<TankStats> tankList = new List<TankStats>();
     public List<TankStats> TankList => tankList;
 
+    public event Action<TankStats> OnPlayerJoined;
+
+    public event Action<TankStats> OnPlayerDie;
+
     public TankStats FindPlayer(TankStats _this)
     {
         return TankList.Find(x => x == _this);
+    }
+
+    public TankStats FindPlayerByIndex(int _index)
+    {
+        return TankList[_index];
     }
 
     public void AddTank(TankStats _tank)
@@ -40,26 +54,39 @@ public class GameManager : MonoBehaviour
         tankList.Add(_tank);
         tankList.Sort((a, b) => a.PlayerNum.CompareTo(b.PlayerNum));
 
-        gameUiController.leaderBoard.UpdatePlayerList();
+        gameUi.leaderBoard.UpdatePlayerList();
+
+        OnPlayerJoined?.Invoke(_tank);
     }
 
     public void onGameStart()
     {
         mainMenuUi.gameObject.SetActive(false);
-        gameUiController.gameObject.SetActive(true);
-    }
+        gameUi.gameObject.SetActive(true);
 
-    public void OnPlayerEnterRoom()
-    {
+        gameUi.RestartButton.onClick.AddListener(RestartGame);
+
+        SpawnPlayer();
     }
 
     public TankStats SpawnPlayer()
     {
         localTank = PhotonNetwork.Instantiate(
             Path.Combine("NetPrefabs", $"{playerPrefab.name}"),
-            new Vector3(15f, 0f, 0f),
+            new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f)),
             Quaternion.identity, 0).GetComponent<TankStats>();
 
         return localTank;
+    }
+
+    public void PlayerDie(TankStats _playerDie)
+    {
+        OnPlayerDie?.Invoke(_playerDie);
+    }
+
+    public void RestartGame()
+    {
+        localTank.ResetTank();
+        gameUi.RestartUi();
     }
 }

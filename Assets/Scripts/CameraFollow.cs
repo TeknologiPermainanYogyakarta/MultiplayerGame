@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [SerializeField]
+    private float rotateSpeed = 0.1f;
     private TankMove target;
 
     public void SetTarget(TankMove _tank)
@@ -15,6 +17,6 @@ public class CameraFollow : MonoBehaviour
     private void LateUpdate()
     {
         this.transform.position = target.transform.position;
-        this.transform.eulerAngles = new Vector3(0, target.transform.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target.transform.rotation, rotateSpeed);
     }
 }
