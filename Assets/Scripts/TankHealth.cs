@@ -34,8 +34,6 @@ public class TankHealth : MonoBehaviour
 
     public void SetHealth(float _amount)
     {
-        if (!pv.IsMine) { return; }
-
         if (isDie)
             return;
 
@@ -52,6 +50,11 @@ public class TankHealth : MonoBehaviour
         {
             die();
         }
+    }
+
+    public void Firing(TankHealth _target)
+    {
+        _target.SetHealth(-33f);
     }
 
     private void die()

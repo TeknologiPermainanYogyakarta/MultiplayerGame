@@ -9,9 +9,16 @@ public class Bullet : MonoBehaviour
     public Rigidbody rigidBody;
     public float force = 1000;
 
+    private TankHealth owner;
+
     private void Start()
     {
         rigidBody.AddForce(transform.forward * force);
+    }
+
+    public void BulletSetup(TankHealth _owner)
+    {
+        owner = _owner;
     }
 
     private void DestroySelf()
@@ -22,10 +29,13 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider co)
     {
+        if (!GetComponent<PhotonView>().IsMine)
+            return;
+
         if (co.GetComponent<TankHealth>())
         {
-            co.GetComponent<TankHealth>().SetHealth(-33f);
-            Debug.LogError($"Bullet damaging {co.gameObject.name}");
+            owner.Firing(co.GetComponent<TankHealth>());
+            Debug.LogError($"{owner.gameObject.name}'s bullet damaging {co.gameObject.name}");
         }
         DestroySelf();
     }

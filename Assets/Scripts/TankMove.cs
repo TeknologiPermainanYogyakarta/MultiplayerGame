@@ -36,7 +36,7 @@ public class TankMove : MonoBehaviour
 
     private void setCamera()
     {
-        if (pv.IsMine == false && PhotonNetwork.IsConnected == true)
+        if (!pv.IsMine && PhotonNetwork.IsConnected)
         {
             return;
         }
@@ -46,7 +46,7 @@ public class TankMove : MonoBehaviour
 
     private void Update()
     {
-        if (pv.IsMine == false && PhotonNetwork.IsConnected == true)
+        if (!pv.IsMine && PhotonNetwork.IsConnected)
         {
             return;
         }
@@ -64,6 +64,7 @@ public class TankMove : MonoBehaviour
     private void fire()
     {
         GameObject spawned = PhotonNetwork.Instantiate(System.IO.Path.Combine("NetPrefabs", bullet.name), gunPos.position, transform.rotation);
+        spawned.GetComponent<Bullet>().BulletSetup(GetComponent<TankHealth>());
         anim.SetTrigger("Shoot");
     }
 
