@@ -88,6 +88,18 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     public void ResetTank()
     {
         TankHealth.resetHealth();
+
+        if (!pv.IsMine) { return; }
+
+        pv.RPC(nameof(RpcResetStats), RpcTarget.All);
+        GameManager.instance.gameUi.UpdateScore(currentScore);
+    }
+
+    [PunRPC]
+    private void RpcResetStats()
+    {
         isWin = false;
+        currentScore = 0;
+        GameManager.instance.gameUi.UpdateLeaderboard();
     }
 }

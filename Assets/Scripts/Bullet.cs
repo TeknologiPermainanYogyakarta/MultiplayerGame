@@ -35,7 +35,7 @@ public class Bullet : MonoBehaviour
         if (co.GetComponent<TankHealth>())
         {
             owner.Firing(co.GetComponent<TankHealth>());
-            Debug.LogError($"{owner.gameObject.name}'s bullet damaging {co.gameObject.name}");
+            //Debug.LogError($"{owner.gameObject.name}'s bullet damaging {co.gameObject.name}");
         }
         DestroySelf();
     }

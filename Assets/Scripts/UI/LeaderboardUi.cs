@@ -37,9 +37,14 @@ public class LeaderboardUi : MonoBehaviour
 
     public void UpdateScore(List<TankStats> tanks)
     {
-        for (int i = 0; i < tanks.Count; i++)
+        List<TankStats> sorted = new List<TankStats>();
+
+        sorted.AddRange(tanks);
+        sorted.Sort((a, b) => b.Score.CompareTo(a.Score));
+
+        for (int i = 0; i < sorted.Count; i++)
         {
-            leaderList[i].SetScore(i + 1, tanks[i].NickName, tanks[i].Score);
+            leaderList[i].SetScore(i + 1, sorted[i].NickName, sorted[i].Score);
         }
     }
 }

@@ -37,16 +37,6 @@ public class GameManager : MonoBehaviour
 
     public event Action<TankStats> OnPlayerDie;
 
-    public TankStats FindPlayer(TankStats _this)
-    {
-        return TankList.Find(x => x == _this);
-    }
-
-    public TankStats FindPlayerByIndex(int _index)
-    {
-        return TankList[_index];
-    }
-
     public void AddTank(TankStats _tank)
     {
         if (tankList.Contains(_tank)) { return; }
