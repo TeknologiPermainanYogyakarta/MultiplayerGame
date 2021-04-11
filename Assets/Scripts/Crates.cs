@@ -92,6 +92,11 @@ public class Crates : MonoBehaviour
     private void RpcSetActive(bool _state, int _type)
     {
         gameObject.SetActive(_state);
+
         SetType((CratesType)_type);
+        if (!_state)
+        {
+            GameManager.instance.battle.cratesManager.spawnExplosion(this.transform.position);
+        }
     }
 }

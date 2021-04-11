@@ -5424,6 +5424,8 @@ MonoBehaviour:
   crates: []
   center: {x: 0, y: 10, z: 0}
   spawnArea: {x: 50, y: 1, z: 51.88}
+  vfxExplosion: {fileID: 7434052629496392553, guid: b81b93ff580df11468ad5da8fc5ba5e8,
+    type: 3}
 --- !u!1 &1610400840
 GameObject:
   m_ObjectHideFlags: 0

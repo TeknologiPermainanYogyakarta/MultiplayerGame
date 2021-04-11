@@ -18,6 +18,9 @@ public class CratesManager : MonoBehaviour
 
     private PhotonView pv;
 
+    [SerializeField]
+    private GameObject vfxExplosion;
+
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
@@ -43,6 +46,12 @@ public class CratesManager : MonoBehaviour
     {
         CratesType randomType = (CratesType)Random.Range(0, Enum.GetNames(typeof(CratesType)).Length);
         _crate.SetType(randomType);
+    }
+
+    public void spawnExplosion(Vector3 pos)
+    {
+        GameObject explosion = Instantiate(vfxExplosion, pos, Quaternion.identity);
+        Destroy(explosion, 3f);
     }
 }
 
