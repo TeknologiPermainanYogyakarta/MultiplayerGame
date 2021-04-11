@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
 {
     private const byte WIN_EVENT = 0;
 
+    public CratesManager cratesManager;
+
     [SerializeField]
     private BattleState currentBattle = BattleState.waiting;
 

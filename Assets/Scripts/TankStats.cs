@@ -55,6 +55,9 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     private void RpcScore(float _amount)
     {
         currentScore += _amount;
+
+        currentScore = Mathf.Clamp(currentScore, 0, Mathf.Infinity);
+
         GameManager.instance.gameUi.UpdateLeaderboard();
     }
 
@@ -93,7 +96,7 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     {
         if (pv.IsMine)
         {
-            currentScore = 0;
+            pv.RPC(nameof(RpcScore), RpcTarget.AllBuffered, -Mathf.Infinity);
             GameManager.instance.gameUi.UpdateScore(currentScore);
         }
 

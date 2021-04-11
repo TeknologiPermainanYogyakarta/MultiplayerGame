@@ -5316,6 +5316,7 @@ GameObject:
   - component: {fileID: 1597381096}
   - component: {fileID: 1597381095}
   - component: {fileID: 1597381097}
+  - component: {fileID: 1597381099}
   - component: {fileID: 1597381098}
   m_Layer: 0
   m_Name: ===========Managers
@@ -5384,6 +5385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601db1a765d51bb46ab268f42e800880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cratesManager: {fileID: 1597381099}
   currentBattle: 0
 --- !u!114 &1597381098
 MonoBehaviour:
@@ -5407,6 +5409,21 @@ MonoBehaviour:
   sceneViewId: 8
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1597381099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597381093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cec76c75015d52468e51fcdb265ba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crates: []
+  center: {x: 0, y: 10, z: 0}
+  spawnArea: {x: 50, y: 1, z: 51.88}
 --- !u!1 &1610400840
 GameObject:
   m_ObjectHideFlags: 0

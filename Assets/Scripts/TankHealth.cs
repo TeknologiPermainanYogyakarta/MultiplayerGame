@@ -45,6 +45,8 @@ public class TankHealth : MonoBehaviour
     {
         currentHealth += _amount;
 
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
         updateHealth();
         if (currentHealth <= 0)
         {
@@ -54,7 +56,7 @@ public class TankHealth : MonoBehaviour
 
     public void Firing(TankHealth _target)
     {
-        _target.TakeDamage(-33f);
+        _target.TakeDamage(-7f);
     }
 
     private void die()
@@ -74,12 +76,18 @@ public class TankHealth : MonoBehaviour
     {
         if (pv.IsMine)
         {
-            gameObject.SetActive(true);
+            pv.RPC(nameof(RpcSetActive), RpcTarget.AllBuffered);
         }
         currentHealth = maxHealth;
 
         isDie = false;
 
         updateHealth();
+    }
+
+    [PunRPC]
+    private void RpcSetActive()
+    {
+        gameObject.SetActive(true);
     }
 }
