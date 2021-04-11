@@ -120,7 +120,7 @@ public class TankHealth : MonoBehaviour
 
             if (shieldRoutine != null)
             {
-                StopCoroutine(shieldProgress());
+                StopCoroutine(shieldRoutine);
             }
             shieldRoutine = StartCoroutine(shieldProgress());
         }

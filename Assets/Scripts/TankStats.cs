@@ -96,7 +96,7 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     {
         if (pv.IsMine)
         {
-            pv.RPC(nameof(RpcScore), RpcTarget.AllBuffered, -Mathf.Infinity);
+            pv.RPC(nameof(RpcScore), RpcTarget.AllBuffered, -1000);
             GameManager.instance.gameUi.UpdateScore(currentScore);
         }
 
