@@ -17,7 +17,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     #region join create room
 
-    private string[] names = new string[10]
+    private string[] names = new string[25]
     {
         "happy",
         "kura",
@@ -28,7 +28,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         "naruto",
         "sasuke",
         "sakura",
-        "ramen"
+        "ramen",
+        "Sosis",
+        "Galon",
+        "Kucing",
+        "Bambang",
+        "Rantang",
+        "Radit",
+        "Kemoceng",
+        "Jerapah",
+        "Agresi",
+        "Cangcorang",
+        "Susilo",
+        "Berkah",
+        "Baso",
+        "Menangis",
+        "Pilu"
     };
 
     private void Start()

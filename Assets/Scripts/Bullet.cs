@@ -32,9 +32,9 @@ public class Bullet : MonoBehaviour
         if (!GetComponent<PhotonView>().IsMine)
             return;
 
-        if (co.GetComponent<TankHealth>())
+        if (co.GetComponent<TankStats>())
         {
-            owner.Firing(co.GetComponent<TankHealth>());
+            owner.Firing(co.GetComponent<TankStats>());
         }
         else if (co.GetComponent<Crates>())
         {

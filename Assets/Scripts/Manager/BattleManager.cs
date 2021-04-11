@@ -61,7 +61,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void winCheck(TankStats dieTank)
+    public void winCheck(TankStats dieTank, TankStats killer)
     {
         List<TankStats> tanks = GameManager.instance.TankList;
 

@@ -35,9 +35,11 @@ public class GameManager : MonoBehaviour
     private List<TankStats> tankList = new List<TankStats>();
     public List<TankStats> TankList => tankList;
 
+    public int playerIndex => TankList.FindIndex((t) => t == localTank);
+
     public event Action<TankStats> OnPlayerJoined;
 
-    public event Action<TankStats> OnPlayerDie;
+    public event Action<TankStats, TankStats> OnPlayerDie;
 
     public event Action OnRestartGame;
 
@@ -78,9 +80,14 @@ public class GameManager : MonoBehaviour
         return localTank;
     }
 
-    public void PlayerDie(TankStats _playerDie)
+    public void PlayerDie(int _playerDie, int _killer)
     {
-        OnPlayerDie?.Invoke(_playerDie);
+        if (_killer >= 0)
+        {
+            TankStats diedTank = TankList[_playerDie];
+            TankStats killerTank = TankList[_killer];
+            OnPlayerDie?.Invoke(diedTank, killerTank);
+        }
     }
 
     public void RestartGame()

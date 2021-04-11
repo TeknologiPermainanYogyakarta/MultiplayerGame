@@ -58,14 +58,12 @@ public class Crates : MonoBehaviour
     private void applyEffect(Collider other)
     {
         TankStats tank = other.GetComponent<TankStats>();
-        if (!tank.GetComponent<PhotonView>().IsMine)
-        {
-            return;
-        }
+        if (!tank.GetComponent<PhotonView>().IsMine) { return; }
         switch (currentType)
         {
             case CratesType.bomb:
                 tank.TankHealth.TakeDamage(-60);
+                tank.TankHealth.SetAttacker(-1);
                 break;
 
             case CratesType.heal:

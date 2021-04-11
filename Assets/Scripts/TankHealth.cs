@@ -19,6 +19,8 @@ public class TankHealth : MonoBehaviour
 
     public float maxHealth = 100f;
 
+    [Header("DIE")]
+    private int attackerIndex = -1;
     private bool isDie;
     public bool IsDie => isDie;
 
@@ -44,15 +46,16 @@ public class TankHealth : MonoBehaviour
         if (isDie || isShielded)
             return;
 
-        pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount);
+        pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount, attackerIndex);
     }
 
     [PunRPC]
-    public void RpcTakeDamage(float _amount)
+    public void RpcTakeDamage(float _amount, int _attacker)
     {
         currentHealth += _amount;
 
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        SetAttacker(_attacker);
 
         updateHealth();
         if (currentHealth <= 0)
@@ -61,9 +64,15 @@ public class TankHealth : MonoBehaviour
         }
     }
 
-    public void Firing(TankHealth _target)
+    public void Firing(TankStats _target)
     {
-        _target.TakeDamage(-7f);
+        _target.TankHealth.SetAttacker(GameManager.instance.playerIndex);
+        _target.TankHealth.TakeDamage(-7f);
+    }
+
+    public void SetAttacker(int _index)
+    {
+        attackerIndex = _index;
     }
 
     private void die()
@@ -72,7 +81,9 @@ public class TankHealth : MonoBehaviour
         isDie = true;
         isShielded = false;
 
-        GameManager.instance.PlayerDie(GameManager.instance.LocalTank);
+        GameManager.instance.PlayerDie(GameManager.instance.TankList.FindIndex((t) => t == GetComponent<TankStats>()), attackerIndex);
+
+        attackerIndex = -1;
     }
 
     private void updateHealth()
