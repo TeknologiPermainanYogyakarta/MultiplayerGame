@@ -10,6 +10,9 @@ public class TankHealth : MonoBehaviour
     private PhotonView pv;
 
     [SerializeField]
+    private GameObject shield;
+
+    [SerializeField]
     private Image healthBar = null;
 
     private float currentHealth = 100f;
@@ -19,8 +22,12 @@ public class TankHealth : MonoBehaviour
     private bool isDie;
     public bool IsDie => isDie;
 
+    private bool isShielded;
+
     [SerializeField]
     private int armor;
+
+    private Coroutine shieldRoutine;
 
     private void Awake()
     {
@@ -34,7 +41,7 @@ public class TankHealth : MonoBehaviour
 
     public void TakeDamage(float _amount)
     {
-        if (isDie)
+        if (isDie || isShielded)
             return;
 
         pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount);
@@ -63,6 +70,7 @@ public class TankHealth : MonoBehaviour
     {
         gameObject.SetActive(false);
         isDie = true;
+        isShielded = false;
 
         GameManager.instance.PlayerDie(GameManager.instance.LocalTank);
     }
@@ -80,6 +88,8 @@ public class TankHealth : MonoBehaviour
         }
         currentHealth = maxHealth;
 
+        isShielded = false;
+        shield.gameObject.SetActive(isShielded);
         isDie = false;
 
         updateHealth();
@@ -89,5 +99,32 @@ public class TankHealth : MonoBehaviour
     private void RpcSetActive()
     {
         gameObject.SetActive(true);
+    }
+
+    public void GiveShield()
+    {
+        if (pv.IsMine)
+        {
+            pv.RPC(nameof(RpcGiveShield), RpcTarget.AllBuffered, true);
+
+            if (shieldRoutine != null)
+            {
+                StopCoroutine(shieldProgress());
+            }
+            shieldRoutine = StartCoroutine(shieldProgress());
+        }
+    }
+
+    [PunRPC]
+    private void RpcGiveShield(bool _state)
+    {
+        isShielded = _state;
+        shield.gameObject.SetActive(isShielded);
+    }
+
+    private IEnumerator shieldProgress()
+    {
+        yield return new WaitForSeconds(5f);
+        pv.RPC(nameof(RpcGiveShield), RpcTarget.AllBuffered, false);
     }
 }

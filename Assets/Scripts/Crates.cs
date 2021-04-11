@@ -74,6 +74,7 @@ public class Crates : MonoBehaviour
 
             case CratesType.score:
                 tank.GiveScore(2);
+                tank.TankHealth.GiveShield();
                 break;
 
             default:
