@@ -9,6 +9,7 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     private PhotonView pv;
 
     public TankHealth TankHealth;
+    public TankMove TankMove;
 
     [SerializeField]
     private float currentScore;

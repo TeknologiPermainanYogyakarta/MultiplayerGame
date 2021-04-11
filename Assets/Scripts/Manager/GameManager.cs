@@ -30,12 +30,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TankStats localTank;
 
+    public TankStats LocalTank => localTank;
+
     private List<TankStats> tankList = new List<TankStats>();
     public List<TankStats> TankList => tankList;
 
     public event Action<TankStats> OnPlayerJoined;
 
     public event Action<TankStats> OnPlayerDie;
+
+    private Vector3 randomPos
+    {
+        get => new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f));
+    }
 
     public void AddTank(TankStats _tank)
     {
@@ -63,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         localTank = PhotonNetwork.Instantiate(
             Path.Combine("NetPrefabs", $"{playerPrefab.name}"),
-            new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f)),
+            randomPos,
             Quaternion.identity, 0).GetComponent<TankStats>();
 
         return localTank;
@@ -77,6 +84,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         localTank.ResetTank();
+        localTank.transform.position = randomPos;
         gameUi.RestartUi();
     }
 }

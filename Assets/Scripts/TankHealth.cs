@@ -32,7 +32,7 @@ public class TankHealth : MonoBehaviour
         updateHealth();
     }
 
-    public void SetHealth(float _amount)
+    public void TakeDamage(float _amount)
     {
         if (isDie)
             return;
@@ -54,7 +54,7 @@ public class TankHealth : MonoBehaviour
 
     public void Firing(TankHealth _target)
     {
-        _target.SetHealth(-33f);
+        _target.TakeDamage(-33f);
     }
 
     private void die()
@@ -62,7 +62,7 @@ public class TankHealth : MonoBehaviour
         gameObject.SetActive(false);
         isDie = true;
 
-        GameManager.instance.PlayerDie(GetComponent<TankStats>());
+        GameManager.instance.PlayerDie(GameManager.instance.LocalTank);
         GameManager.instance.gameUi.RestartButton.gameObject.SetActive(true);
     }
 

@@ -55,7 +55,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1929121057450696492
 Transform:
   m_ObjectHideFlags: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TankHealth: {fileID: 7442631344227717981}
+  TankMove: {fileID: 1929121057450696493}
   currentScore: 0
 --- !u!114 &1929121057450696486
 MonoBehaviour:
