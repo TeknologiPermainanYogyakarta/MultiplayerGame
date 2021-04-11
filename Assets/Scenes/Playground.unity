@@ -5316,6 +5316,7 @@ GameObject:
   - component: {fileID: 1597381096}
   - component: {fileID: 1597381095}
   - component: {fileID: 1597381097}
+  - component: {fileID: 1597381098}
   m_Layer: 0
   m_Name: ===========Managers
   m_TagString: Untagged
@@ -5383,6 +5384,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 601db1a765d51bb46ab268f42e800880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBattle: 0
+--- !u!114 &1597381098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597381093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1610400840
 GameObject:
   m_ObjectHideFlags: 0
@@ -6707,11 +6731,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1191746741354498720, guid: 40e23d5f7c4639c479607b5f92435b9e,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1929121057450696492, guid: 40e23d5f7c4639c479607b5f92435b9e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6771,11 +6790,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TankPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 1929121057450696494, guid: 40e23d5f7c4639c479607b5f92435b9e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40e23d5f7c4639c479607b5f92435b9e, type: 3}

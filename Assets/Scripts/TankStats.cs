@@ -66,10 +66,13 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
 
     public void Winning(bool _isWin)
     {
-        if (pv.IsMine)
+        if (!pv.IsMine)
         {
-            pv.RPC(nameof(RpcWinning), RpcTarget.AllBuffered, _isWin);
+            return;
         }
+
+        gameObject.SetActive(false);
+        pv.RPC(nameof(RpcWinning), RpcTarget.AllBuffered, _isWin);
     }
 
     [PunRPC]
@@ -88,19 +91,13 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
 
     public void ResetTank()
     {
-        TankHealth.resetHealth();
+        if (pv.IsMine)
+        {
+            currentScore = 0;
+            GameManager.instance.gameUi.UpdateScore(currentScore);
+        }
 
-        if (!pv.IsMine) { return; }
-
-        pv.RPC(nameof(RpcResetStats), RpcTarget.All);
-        GameManager.instance.gameUi.UpdateScore(currentScore);
-    }
-
-    [PunRPC]
-    private void RpcResetStats()
-    {
+        TankHealth.ResetHealth();
         isWin = false;
-        currentScore = 0;
-        GameManager.instance.gameUi.UpdateLeaderboard();
     }
 }

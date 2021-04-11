@@ -37,11 +37,11 @@ public class TankHealth : MonoBehaviour
         if (isDie)
             return;
 
-        pv.RPC(nameof(RpcSetHealth), RpcTarget.AllBuffered, _amount);
+        pv.RPC(nameof(RpcTakeDamage), RpcTarget.AllBuffered, _amount);
     }
 
     [PunRPC]
-    public void RpcSetHealth(float _amount)
+    public void RpcTakeDamage(float _amount)
     {
         currentHealth += _amount;
 
@@ -63,7 +63,6 @@ public class TankHealth : MonoBehaviour
         isDie = true;
 
         GameManager.instance.PlayerDie(GameManager.instance.LocalTank);
-        GameManager.instance.gameUi.RestartButton.gameObject.SetActive(true);
     }
 
     private void updateHealth()
@@ -71,20 +70,14 @@ public class TankHealth : MonoBehaviour
         healthBar.fillAmount = currentHealth / maxHealth;
     }
 
-    public void resetHealth()
+    public void ResetHealth()
     {
-        // because resetter is local, another client is ignored
-
-        if (!pv.IsMine) { return; }
-
-        pv.RPC(nameof(RpcResetHealth), RpcTarget.All);
-    }
-
-    [PunRPC]
-    private void RpcResetHealth()
-    {
+        if (pv.IsMine)
+        {
+            gameObject.SetActive(true);
+        }
         currentHealth = maxHealth;
-        gameObject.SetActive(true);
+
         isDie = false;
 
         updateHealth();

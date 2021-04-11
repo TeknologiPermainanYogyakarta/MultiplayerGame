@@ -25,6 +25,11 @@ public class GameUiController : MonoBehaviour
     [SerializeField]
     private GameObject losePanel;
 
+    private void Start()
+    {
+        GameManager.instance.OnRestartGame += RestartUi;
+    }
+
     public void UpdateLeaderboard()
     {
         leaderBoard.UpdateScore(GameManager.instance.TankList);

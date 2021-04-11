@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     public event Action<TankStats> OnPlayerDie;
 
+    public event Action OnRestartGame;
+
     private Vector3 randomPos
     {
         get => new Vector3(Random.Range(-15f, 15f), 0f, Random.Range(-15f, 15f));
@@ -83,8 +85,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        localTank.ResetTank();
+        foreach (TankStats tank in tankList)
+        {
+            tank.ResetTank();
+        }
+
+        gameUi.UpdateLeaderboard();
+
         localTank.transform.position = randomPos;
-        gameUi.RestartUi();
+        OnRestartGame?.Invoke();
     }
 }
