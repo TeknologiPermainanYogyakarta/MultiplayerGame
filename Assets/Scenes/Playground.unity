@@ -287,18 +287,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leeway: 1
-  comboAttack:
-    Attack:
-    - Name: heavy1
-      Inputs: 0
-    - Name: heavy2
-      Inputs: 0
-    - Name: heavy3
-      Inputs: 0
+  comboMoves:
+    ComboMoves:
+    - AttackName: Heavy
+      Attack:
+      - Name: heavy1
+        InputType: 0
+      - Name: heavy2
+        InputType: 0
+      - Name: heavy3
+        InputType: 0
+    - AttackName: Light
+      Attack:
+      - Name: light1
+        InputType: 1
+      - Name: light2
+        InputType: 1
+    PossibleAttack: []
   nextAttackIndex: 0
   anim: {fileID: 183476728}
   ignoreInput: 0
   isAnimating: 0
+  isCombo: 0
   waitComboBar: {fileID: 629819640}
 --- !u!1 &285094944
 GameObject:
