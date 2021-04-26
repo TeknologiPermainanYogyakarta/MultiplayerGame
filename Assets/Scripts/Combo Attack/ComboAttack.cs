@@ -8,7 +8,7 @@ public class ComboAttack : MonoBehaviour
 {
     [SerializeField]
     private float leeway = 1f;
-    public Combo comboAttack;
+    public ComboData comboDatas;
 
     [Header("Components")]
     [SerializeField] private int nextAttackIndex;
@@ -38,13 +38,15 @@ public class ComboAttack : MonoBehaviour
         isAnimating = true;
         ignoreInput = true;
 
-        if (nextAttackIndex >= comboAttack.Attack.Count)
+        if (nextAttackIndex >= comboDatas.Attack.Count)
         {
             nextAttackIndex = 0;
         }
 
-        Attack att = comboAttack.Attack[nextAttackIndex];
+        Attack att = comboDatas.Attack[nextAttackIndex];
         anim.Play(att.Name, -1, 0);
+
+        forceStopWaitCombo();
     }
 
     // referenced in animation event
@@ -61,7 +63,7 @@ public class ComboAttack : MonoBehaviour
         forceStopWaitCombo();
         startWaitNewCombo();
 
-        if (nextAttackIndex >= comboAttack.Attack.Count) // if combo finished in attack anim
+        if (nextAttackIndex >= comboDatas.Attack.Count) // if combo finished in attack anim
         {
             resetCombo();
             forceStopWaitCombo();
@@ -111,7 +113,7 @@ public class Attack
 }
 
 [System.Serializable]
-public class Combo
+public class ComboData
 {
     public List<Attack> Attack;
 }
