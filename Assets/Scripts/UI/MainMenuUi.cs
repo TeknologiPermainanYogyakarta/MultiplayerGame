@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using Random = UnityEngine.Random;
+using Photon.Pun;
 
 public class MainMenuUi : MonoBehaviour
 {
@@ -24,8 +26,41 @@ public class MainMenuUi : MonoBehaviour
 
     [SerializeField]
     private Image mainPanel = null;
-    public Button CreateButton => createButton;
-    public Button JoinButton => joinButton;
+
+    [SerializeField]
+    private TMP_InputField usernameField = null;
+
+    [SerializeField]
+    private Button randomButton = null;
+
+    private string[] names = new string[25]
+    {
+        "happy",
+        "kura",
+        "kupu",
+        "lebah",
+        "tidak",
+        "makan",
+        "naruto",
+        "sasuke",
+        "sakura",
+        "ramen",
+        "Sosis",
+        "Galon",
+        "Kucing",
+        "Bambang",
+        "Rantang",
+        "Radit",
+        "Kemoceng",
+        "Jerapah",
+        "Agresi",
+        "Cangcorang",
+        "Susilo",
+        "Berkah",
+        "Baso",
+        "Menangis",
+        "Pilu"
+    };
 
     public void SetStatusText(string _text)
     {
@@ -41,6 +76,23 @@ public class MainMenuUi : MonoBehaviour
     {
         createButton.onClick.AddListener(createButtonAction);
         joinButton.onClick.AddListener(joinButtonAction);
+
+        RandomName();
+
+        randomButton.onClick.AddListener(RandomName);
+    }
+
+    private void RandomName()
+    {
+        string randomName = $"{names[Random.Range(0, names.Length)]} {Random.Range(0, 1000)}";
+
+        PhotonNetwork.NickName = randomName;
+        usernameField.text = randomName;
+    }
+
+    public void SetName(string _endName)
+    {
+        PhotonNetwork.NickName = _endName;
     }
 
     private void createButtonAction()
@@ -51,6 +103,12 @@ public class MainMenuUi : MonoBehaviour
             return;
         }
         NetworkManager.instance.CreateRoom(createField.text);
+    }
+
+    internal void Connected()
+    {
+        createButton.interactable = true;
+        joinButton.interactable = true;
     }
 
     private void joinButtonAction()

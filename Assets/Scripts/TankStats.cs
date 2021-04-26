@@ -41,7 +41,7 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
             GameManager.instance.gameUi.SetName(gameObject.name);
     }
 
-    public void GiveScore(float _amount)
+    public void GiveScore(int _amount)
     {
         if (pv.IsMine == false && PhotonNetwork.IsConnected == true)
         {
@@ -52,7 +52,7 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     }
 
     [PunRPC]
-    private void RpcScore(float _amount)
+    private void RpcScore(int _amount)
     {
         currentScore += _amount;
 
@@ -96,8 +96,8 @@ public class TankStats : MonoBehaviour, IPunInstantiateMagicCallback
     {
         if (pv.IsMine)
         {
-            pv.RPC(nameof(RpcScore), RpcTarget.AllBuffered, -1000);
-            GameManager.instance.gameUi.UpdateScore(currentScore);
+            //pv.RPC(nameof(RpcScore), RpcTarget.AllBuffered, -1000);
+            //GameManager.instance.gameUi.UpdateScore(currentScore);
         }
 
         TankHealth.ResetHealth();

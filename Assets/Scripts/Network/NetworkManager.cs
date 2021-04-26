@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
-using Random = UnityEngine.Random;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
@@ -17,35 +16,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     #region join create room
 
-    private string[] names = new string[25]
-    {
-        "happy",
-        "kura",
-        "kupu",
-        "lebah",
-        "tidak",
-        "makan",
-        "naruto",
-        "sasuke",
-        "sakura",
-        "ramen",
-        "Sosis",
-        "Galon",
-        "Kucing",
-        "Bambang",
-        "Rantang",
-        "Radit",
-        "Kemoceng",
-        "Jerapah",
-        "Agresi",
-        "Cangcorang",
-        "Susilo",
-        "Berkah",
-        "Baso",
-        "Menangis",
-        "Pilu"
-    };
-
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
@@ -55,10 +25,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("connected to master");
         GameManager.instance.mainMenuUi.SetStatusText("Connected to master");
-        PhotonNetwork.NickName = $"{names[Random.Range(0, names.Length)]} {Random.Range(0, 1000)}";
 
-        GameManager.instance.mainMenuUi.CreateButton.gameObject.SetActive(true);
-        GameManager.instance.mainMenuUi.JoinButton.gameObject.SetActive(true);
+        GameManager.instance.mainMenuUi.Connected();
     }
 
     public override void OnCreatedRoom()

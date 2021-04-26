@@ -82,12 +82,17 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDie(int _playerDie, int _killer)
     {
-        if (_killer >= 0)
+        if (_killer < 0)
         {
-            TankStats diedTank = TankList[_playerDie];
-            TankStats killerTank = TankList[_killer];
-            OnPlayerDie?.Invoke(diedTank, killerTank);
+            return;
         }
+
+        TankStats diedTank = TankList[_playerDie];
+        TankStats killerTank = TankList[_killer];
+
+        OnPlayerDie?.Invoke(diedTank, killerTank);
+
+        killerTank.GiveScore(10);
     }
 
     public void RestartGame()
