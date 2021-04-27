@@ -25,7 +25,7 @@ public class ComboAttack : MonoBehaviour
 
     private void Start()
     {
-        comboMoves.UpdatePossibleAttack(nextAttackIndex);
+        comboMoves.Reset();
     }
 
     private void Update()
@@ -56,6 +56,7 @@ public class ComboAttack : MonoBehaviour
 
     private void animateAttack(Attack att)
     {
+        curAttack = att;
         if (isAnimating)
         {
             isCombo = true;
@@ -71,7 +72,7 @@ public class ComboAttack : MonoBehaviour
     {
         ignoreInput = false;
         nextAttackIndex++;
-        comboMoves.UpdatePossibleAttack(nextAttackIndex);
+        comboMoves.UpdatePossibleAttack(nextAttackIndex, curAttack.InputType);
 
         // Damage enemy in front
     }
@@ -90,7 +91,7 @@ public class ComboAttack : MonoBehaviour
     public void ResetCombo()
     {
         nextAttackIndex = 0;
-        comboMoves.UpdatePossibleAttack(nextAttackIndex);
+        comboMoves.Reset();
     }
 }
 
@@ -112,13 +113,14 @@ public class ComboMove
 public class ComboData
 {
     public List<ComboMove> ComboMoves = new List<ComboMove>();
+    public List<ComboMove> PossibleMoves = new List<ComboMove>();
     public List<Attack> PossibleAttack = new List<Attack>();
 
     public Attack GetAttackData(AttackType input)
     {
         for (int i = 0; i < PossibleAttack.Count; i++)
         {
-            if (PossibleAttack[i].InputType == input)
+            if (PossibleAttack[i].InputType == input) // always use the first match combo
             {
                 return PossibleAttack[i];
             }
@@ -127,13 +129,34 @@ public class ComboData
         return null;
     }
 
-    public void UpdatePossibleAttack(int index)
+    // need last inputs in array
+    public void UpdatePossibleAttack(int index, AttackType lastType)
     {
         PossibleAttack.Clear();
-        foreach (var move in ComboMoves)
+
+        for (int i = PossibleMoves.Count - 1; i >= 0; i--)
         {
-            if (move.Attack.Count > index)
-                PossibleAttack.Add(move.Attack[index]);
+            if (PossibleMoves[i].Attack.Count <= index || PossibleMoves[i].Attack[index - 1].InputType != lastType)
+            {
+                PossibleMoves.RemoveAt(i);
+            }
+            else
+            {
+                PossibleAttack.Add(PossibleMoves[i].Attack[index]);
+            }
+        }
+    }
+
+    public void Reset()
+    {
+        PossibleMoves.Clear();
+        PossibleMoves.AddRange(ComboMoves);
+
+        PossibleAttack.Clear();
+
+        foreach (var move in PossibleMoves)
+        {
+            PossibleAttack.Add(move.Attack[0]);
         }
     }
 }

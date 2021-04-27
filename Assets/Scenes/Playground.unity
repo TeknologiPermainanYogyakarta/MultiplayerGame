@@ -289,7 +289,7 @@ MonoBehaviour:
   leeway: 1
   comboMoves:
     ComboMoves:
-    - AttackName: Heavy
+    - AttackName: Heavy Base
       Attack:
       - Name: heavy1
         InputType: 0
@@ -297,12 +297,18 @@ MonoBehaviour:
         InputType: 0
       - Name: heavy3
         InputType: 0
-    - AttackName: Light
+    - AttackName: Light Base
       Attack:
       - Name: light1
         InputType: 1
       - Name: light2
         InputType: 1
+    - AttackName: Light Heavy
+      Attack:
+      - Name: light1
+        InputType: 1
+      - Name: light3
+        InputType: 0
     PossibleAttack: []
   nextAttackIndex: 0
   anim: {fileID: 183476728}
