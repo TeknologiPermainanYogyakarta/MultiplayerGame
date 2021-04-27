@@ -42,21 +42,21 @@ public class ComboAttack : MonoBehaviour
 
     private void processInput(AttackType input)
     {
-        Attack att = comboMoves.GetAttackData(input);
+        curAttack = comboMoves.GetAttackData(input);
 
-        if (att == null)
+        if (curAttack == null)
         {
+            // no possible moves
             ResetCombo();
 
-            att = comboMoves.GetAttackData(input);
+            curAttack = comboMoves.GetAttackData(input);
         }
 
-        animateAttack(att);
+        animateAttack(curAttack);
     }
 
     private void animateAttack(Attack att)
     {
-        curAttack = att;
         if (isAnimating)
         {
             isCombo = true;
@@ -65,7 +65,7 @@ public class ComboAttack : MonoBehaviour
         isAnimating = true;
         ignoreInput = true;
 
-        anim.Play(att.Name, -1, 0);
+        anim.Play(att.clip.name, -1, 0);
     }
 
     public void DamageTarget() // Referenced in animation event
@@ -98,7 +98,8 @@ public class ComboAttack : MonoBehaviour
 [System.Serializable]
 public class Attack
 {
-    public string Name;
+    // the clip.name will be used
+    public AnimationClip clip;
     public AttackType InputType;
 }
 
@@ -112,17 +113,18 @@ public class ComboMove
 [System.Serializable]
 public class ComboData
 {
-    public List<ComboMove> ComboMoves = new List<ComboMove>();
+    [SerializeField]
+    private List<ComboMove> ComboMoves = new List<ComboMove>();
     public List<ComboMove> PossibleMoves = new List<ComboMove>();
     public List<Attack> PossibleAttack = new List<Attack>();
 
     public Attack GetAttackData(AttackType input)
     {
-        for (int i = 0; i < PossibleAttack.Count; i++)
+        foreach (var att in PossibleAttack)
         {
-            if (PossibleAttack[i].InputType == input) // always use the first match combo
+            if (att.InputType == input) // always use the first match combo
             {
-                return PossibleAttack[i];
+                return att;
             }
         }
 
