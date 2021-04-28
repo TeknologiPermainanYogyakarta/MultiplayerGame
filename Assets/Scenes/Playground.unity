@@ -291,25 +291,39 @@ MonoBehaviour:
     ComboMoves:
     - AttackName: Heavy Base
       Attack:
-      - Name: heavy1
+      - clip: {fileID: 7400000, guid: f1a49ad848c47184e851e3a9a120a672, type: 2}
         InputType: 0
-      - Name: heavy2
+        mana: 0
+      - clip: {fileID: 7400000, guid: 7abc764f665c6994db88ee7059e2bd27, type: 2}
         InputType: 0
-      - Name: heavy3
+        mana: 0
+      - clip: {fileID: 7400000, guid: b916ec545cc30fc479fcf7802bdd2ff0, type: 2}
         InputType: 0
+        mana: 0
     - AttackName: Light Base
       Attack:
-      - Name: light1
+      - clip: {fileID: 7400000, guid: d7a1af966e94a1a4880e9c060f82dffe, type: 2}
         InputType: 1
-      - Name: light2
+        mana: 0
+      - clip: {fileID: 7400000, guid: a5034d2d3baa5884a9ee9b08aba48c02, type: 2}
         InputType: 1
+        mana: 0
     - AttackName: Light Heavy
       Attack:
-      - Name: light1
+      - clip: {fileID: 7400000, guid: d7a1af966e94a1a4880e9c060f82dffe, type: 2}
         InputType: 1
-      - Name: light3
+        mana: 0
+      - clip: {fileID: 7400000, guid: 1321828aad06da2478cebf7cc56f5d7c, type: 2}
         InputType: 0
+        mana: 0
+    - AttackName: Spell1
+      Attack:
+      - clip: {fileID: 7400000, guid: 1d3b4f5701842aa4daf8a8156dca46fb, type: 2}
+        InputType: 2
+        mana: 80
+    PossibleMoves: []
     PossibleAttack: []
+  curMana: 0
   nextAttackIndex: 0
   anim: {fileID: 183476728}
   ignoreInput: 0

@@ -6,9 +6,10 @@ using UnityEngine.Events;
 
 public class ComboAttack : MonoBehaviour
 {
-    [SerializeField]
-    private float leeway = 1f;
+    [SerializeField] private float leeway = 1f;
     public ComboData comboMoves;
+
+    [SerializeField] private float curMana = 0;
 
     [Header("Components")]
     [SerializeField] private int nextAttackIndex;
@@ -32,11 +33,11 @@ public class ComboAttack : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1") && !ignoreInput)
         {
-            processInput(AttackType.heavy);
+            processInput(AttackType.light);
         }
         else if (Input.GetButtonDown("Fire2") && !ignoreInput)
         {
-            processInput(AttackType.light);
+            processInput(AttackType.spell);
         }
     }
 
@@ -46,10 +47,17 @@ public class ComboAttack : MonoBehaviour
 
         if (curAttack == null)
         {
+            Debug.Log($"NO POSSIBLE MOVES {input}");
             // no possible moves
             ResetCombo();
 
             curAttack = comboMoves.GetAttackData(input);
+        }
+
+        if (curMana < curAttack.mana)
+        {
+            Debug.Log("Not Enough Mana");
+            return;
         }
 
         animateAttack(curAttack);
@@ -60,6 +68,11 @@ public class ComboAttack : MonoBehaviour
         if (isAnimating)
         {
             isCombo = true;
+        }
+
+        if (att.mana > 0)
+        {
+            IncreaseMana(-curAttack.mana);
         }
 
         isAnimating = true;
@@ -75,6 +88,17 @@ public class ComboAttack : MonoBehaviour
         comboMoves.UpdatePossibleAttack(nextAttackIndex, curAttack.InputType);
 
         // Damage enemy in front
+        if (curAttack.mana <= 0)
+        {
+            IncreaseMana(10);
+        }
+    }
+
+    private void IncreaseMana(float amount)
+    {
+        curMana += amount;
+
+        curMana = Mathf.Clamp(curMana, 0, 100);
     }
 
     public void Idling()
@@ -101,6 +125,9 @@ public class Attack
     // the clip.name will be used
     public AnimationClip clip;
     public AttackType InputType;
+
+    //public float chargeTime = 0; // TODO
+    public float mana = 0;
 }
 
 [System.Serializable]
@@ -163,4 +190,4 @@ public class ComboData
     }
 }
 
-public enum AttackType { heavy, light };
+public enum AttackType { heavy, light, spell };
